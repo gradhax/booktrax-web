@@ -15,17 +15,22 @@ import { Socket } from 'dgram';
 
 const Universal: UniversalType = ({
 }) => {
+  const [ socketId, setSocketId ] = useState(null);
+
   useEffect(() => {
     init()
-      .then((res) => {
-        console.log(123, res);
+      .then((_socketId) => {
+        setSocketId(_socketId);
       });
+    return () => {};
   }, []);
 
   return (
     <>
       <GlobalStyle />
-      <Root />
+      <Root
+        socketId={socketId}
+      />
     </>
   );
 };

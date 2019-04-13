@@ -32,11 +32,15 @@ const BlackBar: React.FC = ({
 };
 
 const Root = ({
-
+  socketId,
 }) => {
   return (
     <StyledRoot>
       <BlackBar label={'Booktrax'} />
+      <div>
+        <p>socketId</p>
+        <p>{socketId}</p>
+      </div>
       <BodyContainer />
       <BlackBar label={'Gradhax presents'} />
     </StyledRoot>
