@@ -36,10 +36,9 @@ const Root = ({
 }) => {
   return (
     <StyledRoot>
-      123
       <BlackBar label={'Booktrax'} />
-      {/* <BodyContainer />
-      <BlackBar label={'Gradhax presents'} /> */}
+      <BodyContainer />
+      <BlackBar label={'Gradhax presents'} />
     </StyledRoot>
   );
 };

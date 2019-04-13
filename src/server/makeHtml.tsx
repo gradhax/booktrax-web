@@ -2,9 +2,8 @@ import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components'
 
-import { 
-  addPath, 
-  attachAssets, 
+import {
+  attachAssets,
   MakeHtml,
   requireUniversalComponent,
 } from '@nodekit/express-isomorphic';
@@ -50,6 +49,7 @@ const makeHtml: MakeHtml = async function ({
 <body>
   <div id="app-root">${appRootInString}</div>
   ${attachAssets(assets)}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </body>
 </html>
 `;

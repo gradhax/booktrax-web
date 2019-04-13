@@ -13,20 +13,10 @@ const StyledBody = styled.div`
 
 const Body = ({
   handleChangeDropdown,
-  user = 'default',
-  users,
 }) => {
   return (
     <StyledBody>
-      <Upper 
-        handleChangeDropdown={handleChangeDropdown}
-        user={user}
-        users={users}
-      />
-      <Switch>
-        <Route path="/add" component={AddRepo} />
-        <Route component={RepoListContainer} />
-      </Switch>
+      123
     </StyledBody>
   );
 };

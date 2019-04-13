@@ -12,10 +12,6 @@ const BodyContainer = ({
 
   React.useEffect(
     () => {
-      Axios.post(`${config.dbEndPoint}/users`)
-        .then(({ data }) => {
-          setUsers(data.users);
-        });
       return () => {};
     },
     [],
@@ -29,8 +25,6 @@ const BodyContainer = ({
   return (
     <Body
       handleChangeDropdown={handleChangeDropdown}
-      user={user}
-      users={users}
     />
   );
 };
