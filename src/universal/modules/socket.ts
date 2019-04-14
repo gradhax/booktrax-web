@@ -18,12 +18,16 @@ export async function init() {
         console.log('socket.init(): connection success');
       });
 
-      socket.on('connection-result', ({ socketId, origin }) => {
+      socket.on('response-connection', ({ socketId, origin }) => {
         console.log('socket.init(): socketId: %s, origin: %s', socketId, origin);
         if (!isResolved) {
           resolve(socketId);
           isResolved = true;
         }
+      });
+
+      socket.on('debug', msg => {
+        console.log('socket.init() debug: %s', msg);
       });
       state.socket = socket;
     } catch (err) {

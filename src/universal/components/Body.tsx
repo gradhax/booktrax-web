@@ -12,9 +12,11 @@ const StyledBody = styled.div`
 `;
 
 const Body = ({
+  content,
   didRequest,
   handleClickButton,
 }) => {
+  console.log('content', content);
   return (
     <StyledBody>
       <div>
