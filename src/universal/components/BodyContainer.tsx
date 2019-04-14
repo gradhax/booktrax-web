@@ -60,6 +60,8 @@ function bootstrapAnalyzeHandler({
   const socket = getSocket();
     const context = new AudioContext();
     let queue: any[] = [];
+    let entities: any[] = [];
+    let currentPayload = 0;
     let isPlaying = false;
     const play = (handlePlayNext) => {
       const { buffer, chunkId } = queue.shift();
@@ -68,6 +70,17 @@ function bootstrapAnalyzeHandler({
       source.connect(context.destination);
 
       console.log('[audio] play, chunkId: %s', chunkId);
+
+      let payload = parseInt(chunkId.split('-')[0]);
+      if (payload > currentPayload) {
+        currentPayload = payload;
+        const nextEntity = entities.shift();
+        if (nextEntity) {
+          console.log('[entity]', nextEntity.gifUrl);
+        } else {
+          console.log('[entity] empty entities');
+        }
+      }
 
       handlePlayNext(chunkId);
       source.start();
@@ -90,8 +103,11 @@ function bootstrapAnalyzeHandler({
     socket.emit('request-analyze', text);
 
     socket.on('response-analyze', (data: Element, done) => {
-      const { payloadIdx, voices } = data;
+      const { payloadIdx, voices, entity } = data;
       console.log('[socket] response-analyze payloadIdx: %s', payloadIdx);
+      if (entity) {
+        entities.push(entity);
+      }
 
       if (voices.length) {
         console.log('[audio] response-analyze, voice of length: %s', voices.length);
@@ -110,6 +126,13 @@ function bootstrapAnalyzeHandler({
                 // at the very onstart
                 handleChangeRequestStatus(RequestStatus.INITIATED);
                 play(handlePlayNext);
+
+                const firstEntity = entities.shift();
+                if (firstEntity) {
+                  console.log('[entity]', firstEntity.gifUrl);
+                } else {
+                  console.log('[entity] empty entities');
+                }
               }
               done();
             }
