@@ -61,6 +61,7 @@ function bootstrapAnalyzeHandler({
     const context = new AudioContext();
     let queue: any[] = [];
     let entities: any[] = [];
+    let sentiments: any[] = [];
     let currentPayload = 0;
     let isPlaying = false;
     const play = (handlePlayNext) => {
@@ -71,14 +72,23 @@ function bootstrapAnalyzeHandler({
 
       console.log('[audio] play, chunkId: %s', chunkId);
 
+      // Check if the paragraph has changed
       let payload = parseInt(chunkId.split('-')[0]);
       if (payload > currentPayload) {
         currentPayload = payload;
+
         const nextEntity = entities.shift();
         if (nextEntity) {
           console.log('[entity]', nextEntity.gifUrl);
         } else {
           console.log('[entity] empty entities');
+        }
+
+        const nextSentiment = sentiments.shift();
+        if (nextSentiment) {
+          console.log('[sentiment] score:', nextSentiment.score, 'magnitude:', nextSentiment.magnitude);
+        } else {
+          console.log('[sentiment] next sentiment empty');
         }
       }
 
@@ -103,10 +113,13 @@ function bootstrapAnalyzeHandler({
     socket.emit('request-analyze', text);
 
     socket.on('response-analyze', (data: Element, done) => {
-      const { payloadIdx, voices, entity } = data;
+      const { payloadIdx, voices, entity, analyze } = data;
       console.log('[socket] response-analyze payloadIdx: %s', payloadIdx);
       if (entity) {
         entities.push(entity);
+      }
+      if (analyze) {
+        sentiments.push(analyze.documentSentiment);
       }
 
       if (voices.length) {
@@ -132,6 +145,13 @@ function bootstrapAnalyzeHandler({
                   console.log('[entity]', firstEntity.gifUrl);
                 } else {
                   console.log('[entity] empty entities');
+                }
+
+                const firstSentiment = sentiments.shift();
+                if (firstSentiment) {
+                  console.log('[sentiment], score:', firstSentiment.score, 'magnitude', firstSentiment.magnitude);
+                } else {
+                  console.log('[sentiment] first sentiment empty');
                 }
               }
               done();
