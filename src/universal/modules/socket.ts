@@ -15,11 +15,11 @@ export async function init() {
       const socket = io.connect(`${serverEndPoint}`);
 
       socket.on('connection', () => {
-        console.log('socket.init(): connection success');
+        console.log('[socket] connection: connection success');
       });
 
       socket.on('response-connection', ({ socketId, origin }) => {
-        console.log('socket.init(): socketId: %s, origin: %s', socketId, origin);
+        console.log('[socket] response-connection: socketId: %s, origin: %s', socketId, origin);
         if (!isResolved) {
           resolve(socketId);
           isResolved = true;
@@ -27,7 +27,7 @@ export async function init() {
       });
 
       socket.on('debug', msg => {
-        console.log('socket.init() debug: %s', msg);
+        console.log('[socket] debug: %s', msg);
       });
       state.socket = socket;
     } catch (err) {

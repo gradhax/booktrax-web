@@ -16,7 +16,7 @@ const Body = ({
   didRequest,
   handleClickButton,
 }) => {
-  console.log('content', content);
+  // console.log('content', content);
   return (
     <StyledBody>
       <div>
