@@ -12,11 +12,18 @@ const StyledBody = styled.div`
 `;
 
 const Body = ({
-  handleChangeDropdown,
+  didRequest,
+  handleClickButton,
 }) => {
   return (
     <StyledBody>
-      123
+      <div>
+        <p>didRequest</p>
+        <p>{didRequest ? 'yes' : 'no'}</p>
+      </div>
+      <button onClick={handleClickButton}>
+        button
+      </button>
     </StyledBody>
   );
 };
