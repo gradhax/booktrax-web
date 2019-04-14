@@ -39,11 +39,11 @@ const Root = ({
 }) => {
   return (
     <StyledRoot>
-      <Bar label={'Booktrax'} />
+      <Bar label={'BookTrax'} />
       <BodyContainer
         socketId={socketId}
       />
-      <Bar label={'Gradhax presents'} />
+      <Bar label={'GradHax presents'} />
     </StyledRoot>
   );
 };
