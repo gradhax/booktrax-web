@@ -24,11 +24,22 @@ const B = styled.span`
 const Body = ({
   content,
   handleClickConvert,
+  handlePlayNextPayload,
   payloadIdx,
   requestStatus,
   sentenceIdx,
   socketId,
 }) => {
+  const [ prevPayloadIdx, setPrevPayloadIdx ] = React.useState(null);
+  if (prevPayloadIdx !== payloadIdx) {
+    const analyze = content[payloadIdx] && content[payloadIdx].analyze;
+    if (analyze) {
+      const score = analyze.documentSentiment.score;
+      handlePlayNextPayload(score);
+    }
+    setPrevPayloadIdx(payloadIdx);
+  }
+
   return (
     <StyledBody>
       <Greet>

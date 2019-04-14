@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 const HIGHLIGHTED = 'highlighted';
 
-const StyledResultPage = styled.div``;
+const StyledResultPage = styled.div`
+  margin-top: 12px;
+`;
 
 const Paragraph = styled.div`
   margin-bottom: 13px;
@@ -59,14 +61,32 @@ const ContentArea = ({
   );
 };
 
+const Image = styled.div`
+  display: flex;
+  justify-content: center;
+  max-height: 150px;
+  overflow: hidden;
+  width: 100%;
+
+  > img {
+    max-height: 100%;
+    object-fit: contain;
+    max-width: 100%;
+  }
+`;
+
 const ResultPage = ({
   content,
   payloadIdx,
   sentenceIdx,
   show,
 }) => {
+  const gifUrl = content[payloadIdx] && content[payloadIdx].entity.gifUrl;
   return show && (
     <StyledResultPage>
+      <Image>
+        <img src={gifUrl} alt=""/>
+      </Image>
       <ContentArea
         content={content}
         payloadIdx={payloadIdx}
