@@ -140,6 +140,7 @@ function bootstrapAnalyzeHandler({
                 handleChangeRequestStatus(RequestStatus.INITIATED);
                 play(handlePlayNext);
 
+                // First entity and sentiment
                 const firstEntity = entities.shift();
                 if (firstEntity) {
                   console.log('[entity]', firstEntity.gifUrl);
