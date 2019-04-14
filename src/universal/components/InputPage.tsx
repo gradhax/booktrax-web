@@ -72,7 +72,7 @@ const InputPage: React.FC = ({
       <Textarea requestStatus={requestStatus}/>
       <ButtonArea>
         <span onClick={handleClickConvert}>
-          convert
+          Play
         </span>
       </ButtonArea>
     </StyledInputPage>
