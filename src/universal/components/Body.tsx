@@ -3,13 +3,14 @@ import styled from 'styled-components';
 
 import InputPage from '@@components/InputPage';
 import { RequestStatus } from '@@components/BodyContainer';
+import ResultPage from '@@components/ResultPage'
 
 const StyledBody = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
-  padding: 5px;
+  padding: 5px 7px;
 `;
 
 const Greet = styled.div`
@@ -22,21 +23,29 @@ const B = styled.span`
 
 const Body = ({
   content,
-  currChunkIdx,
   handleClickConvert,
+  payloadIdx,
   requestStatus,
+  sentenceIdx,
   socketId,
 }) => {
-  console.log('currChunkIdx', currChunkIdx);
   return (
     <StyledBody>
       <Greet>
-        Hi, there. You are using BookTrax. Put your text on the bottom and we will create a book for you. <B>{socketId}</B>
+        Hi, there. Welcome to booktrax.
+        Put your text on the bottom and we will create a book for you.
+        You are connected as <B>{socketId}</B>
       </Greet>
       <InputPage
         handleClickConvert={handleClickConvert}
         requestStatus={requestStatus}
         show={requestStatus !== RequestStatus.INITIATED}
+      />
+      <ResultPage
+        content={content}
+        payloadIdx={payloadIdx}
+        sentenceIdx={sentenceIdx}
+        show={requestStatus === RequestStatus.INITIATED}
       />
     </StyledBody>
   );
