@@ -31,7 +31,7 @@ const Body = ({
   return (
     <StyledBody>
       <Greet>
-        Hi, there. You are connected to booktrax. Put your text on the bottom and we will create a book for you. <B>{socketId}</B>
+        Hi, there. You are using BookTrax. Put your text on the bottom and we will create a book for you. <B>{socketId}</B>
       </Greet>
       <InputPage
         handleClickConvert={handleClickConvert}
