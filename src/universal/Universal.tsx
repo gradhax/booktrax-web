@@ -7,15 +7,12 @@ import React, {
 import config from '@@src/config';
 import { init } from '@@modules/socket';
 import GlobalStyle from '@@components/GlobalStyle';
-import Header from '@@components/Header';
 import Root from '@@components/Root';
-import TransferredState from '@@components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
-import { Socket } from 'dgram';
 
 const Universal: UniversalType = ({
 }) => {
-  const [ socketId, setSocketId ] = useState(null);
+  const [ socketId, setSocketId ] = useState('[preparing...]');
 
   useEffect(() => {
     init()
