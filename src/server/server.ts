@@ -32,7 +32,7 @@ const { localServer, server, eject } = ExpressIsomorphic.create({
   webpackConfigUniversalLocalPath: paths.webpackConfigUniversalLocal,
 });
 
-const port = 6234;
+const port = process.env.PORT || 6234;
 
 const httpServer = http.createServer(localServer().app);
 
