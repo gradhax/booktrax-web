@@ -19,7 +19,7 @@ export async function init() {
       });
 
       socket.on('response-connection', ({ socketId, origin }) => {
-        console.log('[socket] response-connection: socketId: %s, origin: %s', socketId, origin);
+        console.log('[socket] response-connection: socketId: %s, requestOrigin: %s', socketId, origin);
         if (!isResolved) {
           resolve(socketId);
           isResolved = true;

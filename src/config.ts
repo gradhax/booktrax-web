@@ -1,5 +1,5 @@
-const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
 
 export default {
-  serverEndPoint: 'http://localhost:4001',
+  serverEndPoint: isProd ? 'https://booktrax-streamer.herokuapp.com' : 'http://localhost:4001',
 };
