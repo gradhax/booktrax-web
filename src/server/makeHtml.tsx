@@ -44,12 +44,12 @@ const makeHtml: MakeHtml = async function ({
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>express-isomorphic-example</title>
   <script>window['universalState']=${JSON.stringify(universalState)}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
   ${styledComponentsStyleTags}
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
   ${attachAssets(assets)}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 </body>
 </html>
 `;
