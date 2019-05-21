@@ -45,12 +45,14 @@ const Circle = styled.div`
   }
 `;
 
-const Spinner = ({
+const Spinner: React.FC<any> = ({
   show,
-}) => !!show && (
-  <StyledSpinner>
-    <Circle />
-  </StyledSpinner>
-);
+}) => show
+  ? (
+    <StyledSpinner>
+      <Circle />
+    </StyledSpinner>
+  )
+  : null;
 
 export default Spinner;

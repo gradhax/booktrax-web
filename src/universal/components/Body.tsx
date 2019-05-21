@@ -21,9 +21,29 @@ const B = styled.span`
   font-weight: bold;
 `;
 
+const ButtonGroup = styled.div`
+  align-items: center;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  margin: 5px 0;
+
+  span {
+    cursor: pointer;
+    text-decoration: underline;
+    &:hover {
+      font-weight: bold;
+    }
+    &:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+`;
+
 const Body = ({
   content,
   handleClickConvert,
+  handleClickStop,
   handlePlayNextPayload,
   payloadIdx,
   requestStatus,
@@ -45,10 +65,14 @@ const Body = ({
       <Greet>
         Hi, there. Welcome to booktrax.
         Put your text on the bottom and we will create a book for you.
+        Stop will reload the page. (state is lost)
         You are connected as <B>{socketId}</B>
       </Greet>
+      <ButtonGroup>
+        <span onClick={handleClickConvert}>Play</span>
+        <span onClick={handleClickStop}>Stop</span>
+      </ButtonGroup>
       <InputPage
-        handleClickConvert={handleClickConvert}
         requestStatus={requestStatus}
         show={requestStatus !== RequestStatus.INITIATED}
       />

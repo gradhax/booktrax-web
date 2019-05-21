@@ -1,8 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import Body from '@@components/Body';
-import config from '@@src/config';
 import { getSocket } from '@@modules/socket';
 
 const AUDIO_COMMON_PATH = 'https://s3-us-west-1.amazonaws.com/gradhax-booktrax';
@@ -22,17 +20,26 @@ const BodyContainer = ({
   const [
     { payloadIdx, sentenceIdx },
     setCurrChunkIdx,
-  ] = React.useState({});
+  ] = React.useState<any>({});
   const [ tracks, setTracks ] = React.useState([]);
-  const [ currTrackIdx, setCurrTrackIdx ] = React.useState(null);
+  const [ currTrackIdx, setCurrTrackIdx ] = React.useState('0');
+  const [ context, setContext ] = React.useState(createAudioContext());
 
   React.useEffect(
     () => {
       const tracks = [];
+      const volume = 0.1;
       tracks['1'] = new Audio(`${AUDIO_COMMON_PATH}/1.mp3`);
+      tracks['1'].volume = volume;
+
       tracks['2'] = new Audio(`${AUDIO_COMMON_PATH}/2.mp3`);
+      tracks['2'].volume = volume;
+
       tracks['4'] = new Audio(`${AUDIO_COMMON_PATH}/4.mp3`);
+      tracks['4'].volume = volume;
+
       tracks['5'] = new Audio(`${AUDIO_COMMON_PATH}/5.mp3`);
+      tracks['5'].volume = volume;
       setTracks(tracks);
 
       return () => {};
@@ -45,22 +52,22 @@ const BodyContainer = ({
 
     const prevTrackIdx = currTrackIdx;
     if (-score <= -0.6) {
-      prevTrackIdx && tracks[prevTrackIdx].pause();
+      tracks[prevTrackIdx] && tracks[prevTrackIdx].pause();
       tracks['1'].play();
       setCurrTrackIdx('1');
     } else if (-0.6 <= score && score <= -0.2) {
-      prevTrackIdx && tracks[prevTrackIdx].pause();
+      tracks[prevTrackIdx] && tracks[prevTrackIdx].pause();
       tracks['2'].play();
       setCurrTrackIdx('2');
     } else if (-0.2 <= score && score <= 0.2) {
-      prevTrackIdx && tracks[prevTrackIdx].pause();
-      setCurrTrackIdx(null);
+      tracks[prevTrackIdx] && tracks[prevTrackIdx].pause();
+      setCurrTrackIdx('0');
     } else if (0.2 <= score && score <= 0.6) {
-      prevTrackIdx && tracks[prevTrackIdx].pause();
+      tracks[prevTrackIdx] && tracks[prevTrackIdx].pause();
       tracks['4'].play();
       setCurrTrackIdx('4');
     } else if (0.6 <= score) {
-      prevTrackIdx && tracks[prevTrackIdx].pause();
+      tracks[prevTrackIdx] && tracks[prevTrackIdx].pause();
       tracks['5'].play();
       setCurrTrackIdx('5');
     }
@@ -80,8 +87,8 @@ const BodyContainer = ({
     console.log('handleClickButton()');
 
     const text = (document.getElementById(TEXTAREA_REF) as any).value;
-    setRequestStatus(true);
     bootstrapAnalyzeHandler({
+      context,
       handleChangeRequestStatus: setRequestStatus,
       handlePlayNext,
       handleReceiveContent: setContent,
@@ -89,10 +96,15 @@ const BodyContainer = ({
     });
   }, [ requestStatus ]);
 
+  const handleClickStop = React.useCallback((e) => {
+    window.location.reload();
+  }, []);
+
   return (
     <Body
       content={content}
       handleClickConvert={handleClickConvert}
+      handleClickStop={handleClickStop}
       handlePlayNextPayload={handlePlayNextPayload}
       payloadIdx={payloadIdx}
       requestStatus={requestStatus}
@@ -105,6 +117,7 @@ const BodyContainer = ({
 export default BodyContainer;
 
 function bootstrapAnalyzeHandler({
+  context,
   handleChangeRequestStatus,
   handlePlayNext,
   handleReceiveContent,
@@ -112,7 +125,6 @@ function bootstrapAnalyzeHandler({
 }) {
   const content: any[] = [];
   const socket = getSocket();
-  const context = new AudioContext();
   let queue: {
     buffer;
     payloadIdx;
@@ -125,6 +137,7 @@ function bootstrapAnalyzeHandler({
       sentenceIdx,
       payloadIdx,
     } = queue.shift() as any;
+
     const source = context.createBufferSource();
     source.buffer = buffer;
     source.connect(context.destination);
@@ -149,7 +162,7 @@ function bootstrapAnalyzeHandler({
         isPlaying = false;
       }, buffer.duration * 1000);
     }
-  }
+  };
 
   handleChangeRequestStatus(RequestStatus.IN_PROGRESS);
   socket.emit('request-analyze', text);
@@ -170,7 +183,7 @@ function bootstrapAnalyzeHandler({
     handleReceiveContent([ ...content ]);
 
     if (voices.length) {
-      console.log('[audio] response-analyze, voice of length: %s', voices.length);
+      console.log('[audio] response-analyze, voices of length: %s', voices.length);
       (async () => {
         for (let [ sentenceIdx, voice ] of voices.entries()) {
           const audioStream = voice.data.AudioStream;
@@ -194,6 +207,10 @@ function bootstrapAnalyzeHandler({
       })();
     }
   });
+}
+
+function createAudioContext() {
+  return typeof window !== 'undefined' ? new AudioContext() : {};
 }
 
 interface Element {

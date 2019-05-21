@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactDOM } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -39,7 +39,7 @@ const StyledTextarea = styled.div`
   }
 `;
 
-const Textarea = ({
+const Textarea: React.FC<any> = ({
   requestStatus,
 }) => {
   return (
@@ -53,35 +53,13 @@ const Textarea = ({
   );
 };
 
-const ButtonArea = styled.div`
-  align-items: center;
-  display: flex;
-  font-size: 16px;
-  height: 35px;
-  justify-content: center;
-
-  span {
-    cursor: pointer;
-    text-decoration: underline;
-    &:hover {
-    font-weight: bold;
-  }
-  }
-`;
-
-const InputPage: React.FC = ({
-  handleClickConvert,
+const InputPage: React.FC<any> = ({
   requestStatus,
   show,
 }) => {
-  return !!show && (
+  return show && (
     <StyledInputPage>
       <Textarea requestStatus={requestStatus}/>
-      <ButtonArea>
-        <span onClick={handleClickConvert}>
-          Play
-        </span>
-      </ButtonArea>
     </StyledInputPage>
   );
 };

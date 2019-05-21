@@ -24,7 +24,7 @@ const StyledBar = styled.div`
   letter-spacing: 0.1em;
 `;
 
-const Bar: React.FC = ({
+const Bar: React.FC<any> = ({
   label,
 }) => {
   return (
