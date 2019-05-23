@@ -42,7 +42,7 @@ const makeHtml: MakeHtml = async function ({
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
-  <title>express-isomorphic-example</title>
+  <title>Booktrax: Audiobook generator</title>
   <script>window['universalState']=${JSON.stringify(universalState)}</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
   ${styledComponentsStyleTags}
